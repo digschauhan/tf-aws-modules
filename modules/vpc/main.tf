@@ -1,5 +1,5 @@
 data "aws_availability_zones" "azs" {
-    state = "available"
+  state = "available"
 
 }
 
@@ -7,6 +7,7 @@ data "aws_availability_zones" "azs" {
 resource "aws_vpc" "cluster_vpc" {
   cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
+
   tags = merge(
     var.common_tags,
     { Name = "${var.vpc_name}" },
@@ -61,10 +62,21 @@ resource "aws_internet_gateway" "vpc_ig" {
   )
 }
 
+# Elastic IPs for NAT gateway
+resource "aws_eip" "eip" {
+  count = length(var.public_subnet_cidrs)
+
+  tags = merge(
+    var.common_tags,
+    { Name = "${aws_subnet.public_subnets[count.index].id}-eip" },
+  )
+}
+
 # NAT Gateway, connect with public subnet
 resource "aws_nat_gateway" "cluster_nat" {
   count     = length(var.public_subnet_cidrs)
   subnet_id = aws_subnet.public_subnets[count.index].id
+  allocation_id = aws_eip.eip[count.index].id
 
   tags = merge(
     var.common_tags,
