@@ -1,4 +1,5 @@
 data "aws_availability_zones" "azs" {
+    state = "available"
 
 }
 
@@ -22,11 +23,11 @@ resource "aws_subnet" "private_subnets" {
   vpc_id = aws_vpc.cluster_vpc.id
 
   cidr_block        = element(var.private_subnet_cidrs, count.index)
-  availability_zone = data.aws_availability_zones.azs.all_availability_zones[count.index]
+  availability_zone = data.aws_availability_zones.azs.names[count.index]
 
   tags = merge(
     var.common_tags,
-    { Name = "${var.vpc_name}-private-subnet-${data.aws_availability_zones.azs.all_availability_zones[count.index]}" },
+    { Name = "${var.vpc_name}-private-subnet-${data.aws_availability_zones.azs.names[count.index]}" },
   )
 
   lifecycle {
@@ -39,11 +40,11 @@ resource "aws_subnet" "public_subnets" {
   vpc_id = aws_vpc.cluster_vpc.id
 
   cidr_block        = element(var.public_subnet_cidrs, count.index)
-  availability_zone = data.aws_availability_zones.azs.all_availability_zones[count.index]
+  availability_zone = data.aws_availability_zones.azs.names[count.index]
 
   tags = merge(
     var.common_tags,
-    { Name = "${var.vpc_name}-public-subnet-${data.aws_availability_zones.azs.all_availability_zones[count.index]}" },
+    { Name = "${var.vpc_name}-public-subnet-${data.aws_availability_zones.azs.names[count.index]}" },
   )
 
   lifecycle {
