@@ -74,8 +74,8 @@ resource "aws_eip" "eip" {
 
 # NAT Gateway, connect with public subnet
 resource "aws_nat_gateway" "cluster_nat" {
-  count     = length(var.public_subnet_cidrs)
-  subnet_id = aws_subnet.public_subnets[count.index].id
+  count         = length(var.public_subnet_cidrs)
+  subnet_id     = aws_subnet.public_subnets[count.index].id
   allocation_id = aws_eip.eip[count.index].id
 
   tags = merge(
