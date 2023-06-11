@@ -18,6 +18,11 @@ variable "vpc_name" {
   default = "cluster-vpc"
 }
 
+variable "eks_cluster_name" {
+  type    = string
+  default = ""
+}
+
 variable "common_tags" {
   type = map(string)
   default = {

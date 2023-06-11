@@ -36,9 +36,9 @@ variable "workers_ami_id" {
   default = ""
 }
 
-variable "workers_instance_type" {
-  type    = string
-  default = "t2.micro"
+variable "workers_instance_types" {
+  type    = list(string)
+  default = ["t2.micro"]
 }
 
 variable "workers_storage_size" {

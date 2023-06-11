@@ -3,7 +3,12 @@ variable "aws_region" {
   default = "us-west-2"
 }
 
-variable "clusters_name_prefix" {
+variable "vpc_name" {
   type    = string
-  default = ""
+  default = "eks-cluster-vpc"
+}
+
+variable "eks_cluster_name" {
+  type    = string
+  default = "eks-dev-cluster"
 }

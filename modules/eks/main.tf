@@ -29,6 +29,9 @@ resource "aws_eks_node_group" "workers_node_group" {
 
   version         = var.kubernetes_version
   release_version = var.workers_ami_id == "" ? data.aws_ssm_parameter.eks_ami_id.value : var.workers_ami_id
+  ami_type        = "AL2_x86_64"
+  capacity_type   = "ON_DEMAND"
+  instance_types  = var.workers_instance_types
 
   scaling_config {
     desired_size = var.workers_desired

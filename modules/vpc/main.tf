@@ -29,6 +29,7 @@ resource "aws_subnet" "private_subnets" {
   tags = merge(
     var.common_tags,
     { Name = "${var.vpc_name}-private-subnet-${data.aws_availability_zones.azs.names[count.index]}" },
+    { "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared" },
   )
 
   lifecycle {
@@ -46,6 +47,7 @@ resource "aws_subnet" "public_subnets" {
   tags = merge(
     var.common_tags,
     { Name = "${var.vpc_name}-public-subnet-${data.aws_availability_zones.azs.names[count.index]}" },
+    { "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared" },
   )
 
   lifecycle {
