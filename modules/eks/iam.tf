@@ -28,6 +28,10 @@ resource "aws_iam_role_policy_attachment" "eks_service_role_policy_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
   role       = aws_iam_role.eks_cluster_role.name
 }
+resource "aws_iam_role_policy_attachment" "eks_vpc_role_policy_attachment" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
+  role       = aws_iam_role.eks_cluster_role.name
+}
 
 
 # Worker role setup
