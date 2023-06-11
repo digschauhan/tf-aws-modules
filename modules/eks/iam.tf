@@ -20,11 +20,11 @@ resource "aws_iam_role" "eks_cluster_role" {
 }
 
 data "aws_iam_policy" "AmazonEKSClusterPolicy" {
-  arn = "arn:aws:iam::policy/AmazonEKSClusterPolicy"
+  arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
 }
 
 data "aws_iam_policy" "AmazonEKSServicePolicy" {
-  arn = "arn:aws:iam::policy/AmazonEKSServicePolicy"
+  arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
 }
 
 resource "aws_iam_role_policy_attachment" "eks_cluster_role_policy_attachment" {
@@ -35,7 +35,7 @@ resource "aws_iam_role_policy_attachment" "eks_cluster_role_policy_attachment" {
 }
 
 resource "aws_iam_role_policy_attachment" "eks_service_role_policy_attachment" {
-  policy_arn = data.aws_iam_policy.AmazonEKSServicePolicy
+  policy_arn = data.aws_iam_policy.AmazonEKSServicePolicy.arn
   role       = aws_iam_role.eks_cluster_role.name
 
   depends_on = [data.aws_iam_policy.AmazonEKSServicePolicy]
