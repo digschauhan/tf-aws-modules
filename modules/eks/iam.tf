@@ -19,26 +19,14 @@ resource "aws_iam_role" "eks_cluster_role" {
   tags = var.common_tags
 }
 
-data "aws_iam_policy" "AmazonEKSClusterPolicy" {
-  arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
-}
-
-data "aws_iam_policy" "AmazonEKSServicePolicy" {
-  arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
-}
-
 resource "aws_iam_role_policy_attachment" "eks_cluster_role_policy_attachment" {
-  policy_arn = data.aws_iam_policy.AmazonEKSClusterPolicy.arn
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.eks_cluster_role.name
-
-  depends_on = [data.aws_iam_policy.AmazonEKSClusterPolicy]
 }
 
 resource "aws_iam_role_policy_attachment" "eks_service_role_policy_attachment" {
-  policy_arn = data.aws_iam_policy.AmazonEKSServicePolicy.arn
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSServicePolicy"
   role       = aws_iam_role.eks_cluster_role.name
-
-  depends_on = [data.aws_iam_policy.AmazonEKSServicePolicy]
 }
 
 
